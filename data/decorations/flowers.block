@@ -2,11 +2,11 @@
 {
 	data = 
 	{
-		iconpath = "materials/blocks/textures/leaves_color.png"
+		iconpath = "materials/blocks/textures/flowers_color.png"
 		modelpath = resource:"models/blocks/decorative_block.vmdl"
 		materialpath = resource:"materials/blocks/backface_culled.vmat"
-		texturepath = "materials/blocks/textures/leaves_color.png"
-		blocksize = [ 1.0, 1.0, 1.0 ]
-		category = "0"
+		texturepath = "materials/blocks/textures/flowers_color.png"
+		blocksize = [ 1.0, 8.0, 1.0 ]
+		category = "6"
 	}
 }

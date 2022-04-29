@@ -80,6 +80,7 @@ namespace TerryBros.LevelElements
             {
                 BlockAsset.Categories.Goal => new Goal(),
                 BlockAsset.Categories.CheckPoint => new Checkpoint(),
+                BlockAsset.Categories.Decoration => new Decoration(),
                 _ => new()
             };
 

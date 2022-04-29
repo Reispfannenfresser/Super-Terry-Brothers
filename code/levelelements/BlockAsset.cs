@@ -62,7 +62,8 @@ namespace TerryBros.LevelElements
             Obstacle,
             Trap,
             Goal,
-            CheckPoint
+            CheckPoint,
+            Decoration
         }
 
         [Property, Category("Data")]

@@ -363,6 +363,7 @@ MigrationBackup/
 
 launchSettings.json
 
+# s&box
 *.vtex_c
 *.vmat_c
 *.vmdl_c

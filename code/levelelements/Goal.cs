@@ -10,7 +10,6 @@ namespace TerryBros.LevelElements
         public Goal() : base()
         {
             CollisionGroup = CollisionGroup.Trigger;
-            RenderColor = Color.Green.WithAlpha(0.5f);
 
             AddCollisionLayer(CollisionLayer.All);
         }

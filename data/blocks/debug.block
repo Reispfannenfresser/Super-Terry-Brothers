@@ -2,7 +2,7 @@
 {
 	data = 
 	{
-		iconpath = "materials/blocks/textures/debug_color.png"
+		iconpath = "materials/blocks/icons/debug.png"
 		modelpath = resource:"models/blocks/block.vmdl"
 		materialpath = resource:"materials/blocks/backface_culled.vmat"
 		texturepath = "materials/blocks/textures/debug_color.png"

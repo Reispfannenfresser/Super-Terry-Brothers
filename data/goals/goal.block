@@ -2,7 +2,7 @@
 {
 	data = 
 	{
-		iconpath = "materials/blocks/textures/goal_color.png"
+		iconpath = "materials/blocks/icons/checkpoint.png"
 		modelpath = resource:"models/blocks/tall_decorative_block.vmdl"
 		materialpath = resource:"materials/blocks/default.vmat"
 		texturepath = "materials/blocks/textures/goal_color.png"

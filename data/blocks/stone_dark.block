@@ -2,7 +2,7 @@
 {
 	data = 
 	{
-		iconpath = "materials/blocks/textures/stone_dark_color.png"
+		iconpath = "materials/blocks/icons/stone_dark.png"
 		modelpath = resource:"models/blocks/layered_block.vmdl"
 		materialpath = resource:"materials/blocks/default.vmat"
 		texturepath = "materials/blocks/textures/stone_dark_color.png"

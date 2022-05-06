@@ -2,10 +2,10 @@
 {
 	data = 
 	{
-		iconpath = "materials/blocks/textures/steel_painted_color.png"
+		iconpath = "materials/blocks/textures/steel_top_color.png"
 		modelpath = resource:"models/blocks/layered_block.vmdl"
 		materialpath = resource:"materials/blocks/default.vmat"
-		texturepath = "materials/blocks/textures/steel_painted_color.png"
+		texturepath = "materials/blocks/textures/steel_top_color.png"
 		blocksize = [ 1.0, 1.0, 1.0 ]
 		category = "0"
 	}

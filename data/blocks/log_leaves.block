@@ -8,5 +8,6 @@
 		texturepath = "materials/blocks/textures/log_leaves_color.png"
 		blocksize = [ 1.0, 1.0, 1.0 ]
 		category = "0"
+		displayname = "Overgrown Log"
 	}
 }

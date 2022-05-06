@@ -8,5 +8,6 @@
 		texturepath = "materials/blocks/textures/flowers_color.png"
 		blocksize = [ 1.0, 8.0, 1.0 ]
 		category = "6"
+		displayname = "Flowers"
 	}
 }

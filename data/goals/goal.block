@@ -8,5 +8,6 @@
 		texturepath = "materials/blocks/textures/goal_color.png"
 		blocksize = [ 1.0, 2.0, 1.0 ]
 		category = "4"
+		displayname = "Goal"
 	}
 }

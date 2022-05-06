@@ -8,5 +8,6 @@
 		texturepath = "materials/blocks/textures/sheet_metal_brown_color.png"
 		blocksize = [ 1.0, 1.0, 1.0 ]
 		category = "0"
+		displayname = "Rusty Sheet Metal"
 	}
 }

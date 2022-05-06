@@ -8,5 +8,6 @@
 		texturepath = "materials/blocks/textures/checkpoint_color.png"
 		blocksize = [ 1.0, 1.0, 1.0 ]
 		category = "5"
+		displayname = "Checkpoint"
 	}
 }

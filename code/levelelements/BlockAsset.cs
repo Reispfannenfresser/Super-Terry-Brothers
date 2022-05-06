@@ -14,6 +14,9 @@ namespace TerryBros.LevelElements
         [Property, Category("Display"), ResourceType("png")]
         public string IconPath { get; set; }
 
+        [Property, Category("Display")]
+        public string DisplayName { get; set; }
+
         [Property, Category("Model"), ResourceType("vmdl")]
         public string ModelPath { get; set; }
 

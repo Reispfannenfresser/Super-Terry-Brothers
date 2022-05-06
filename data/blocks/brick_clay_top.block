@@ -8,5 +8,6 @@
 		texturepath = "materials/blocks/textures/brick_clay_top_color.png"
 		blocksize = [ 1.0, 1.0, 1.0 ]
 		category = "0"
+		displayname = "Tiled Clay Bricks"
 	}
 }

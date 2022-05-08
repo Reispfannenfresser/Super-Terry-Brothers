@@ -20,11 +20,20 @@ namespace TerryBros.UI.LevelBuilder.Tools
             Asset = asset;
 
             Image.Texture = Texture.Load(Asset.IconPath, false);
-            TextLabel.Text = Asset.Name;
+            TextLabel.Text = Asset.DisplayName;
+            TextLabel.Style.Set("opacity", "0");
 
             AddEventListener("onclick", (e) =>
             {
                 BlockSelector.Instance.Select(Asset.Name);
+            });
+            AddEventListener("onmouseover", (e) =>
+            {
+                TextLabel.Style.Set("opacity", "1");
+            });
+            AddEventListener("onmouseout", (e) =>
+            {
+                TextLabel.Style.Set("opacity", "0");
             });
         }
     }

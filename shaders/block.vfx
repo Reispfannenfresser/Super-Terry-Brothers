@@ -127,7 +127,7 @@ GS
         {
             return;
         }
-        
+
         [unroll] for ( uint v = 0; v < 3; v++ )
         {
             GSAppendVertex( triStream, i[v] );
@@ -163,7 +163,11 @@ PS
 
     CreateTexture2DWithoutSampler( g_tNormal ) < Channel( RGB, Box( TextureNormal ), Linear ); OutputFormat( BC7 ); SrgbRead( false ); >;
     CreateTexture2DWithoutSampler( g_tRma )    < Channel( R,    Box( TextureRoughness ), Linear ); Channel( G, Box( TextureMetalness ), Linear ); Channel( B, Box( TextureAmbientOcclusion ), Linear ); OutputFormat( BC7 ); SrgbRead( false ); >;
-    
+
+    #if S_ALPHA_TEST
+        TextureAttribute( LightSim_Opacity_A, g_tColor );
+    #endif
+
     RenderState( CullMode, F_RENDER_BACKFACES ? NONE : DEFAULT );
 
 	//
@@ -177,7 +181,7 @@ PS
 
         // Bail early
         #if S_ALPHA_TEST
-            if( vAlbedo.a < g_flAlphaTestReference  )
+            if( vAlbedo.a < g_flAlphaTestReference )
             {
                 discard;
             }
@@ -210,7 +214,7 @@ PS
             float r = TraceSDF( m, i );
             return FinalizePixelReflectionTemp( o, r );
         #endif
-		
+
 		return FinalizePixel( o );
 	}
 }

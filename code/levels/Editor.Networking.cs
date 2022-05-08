@@ -1,35 +1,54 @@
+using System.Collections.Generic;
+
 using Sandbox;
 
 using TerryBros.UI.LevelBuilder;
+using TerryBros.Utils;
 
 namespace TerryBros.Levels
 {
     public static partial class Editor
     {
+        private static List<Vector3> Decompress(string positions) => Level.Decompress(Compression.Decompress<string>(positions.ByteArray()));
+
         [ServerCmd]
-        public static void ServerCreateBlock(Vector3 position, string blockName)
+        public static void ServerCreateBlocks(string positions, string blockName)
         {
-            CreateBlock(position, blockName);
-            ClientCreateBlock(position, blockName);
+            foreach (Vector3 position in Decompress(positions))
+            {
+                CreateBlock(position, blockName);
+            }
+
+            ClientCreateBlocks(positions, blockName);
         }
 
         [ServerCmd]
-        public static void ServerDeleteBlock(Vector3 position)
+        public static void ServerDeleteBlocks(string positions)
         {
-            DeleteBlock(position);
-            ClientDeleteBlock(position);
+            foreach (Vector3 position in Decompress(positions))
+            {
+                DeleteBlock(position);
+            }
+
+            ClientDeleteBlocks(positions);
         }
 
         [ClientRpc]
-        public static void ClientCreateBlock(Vector3 position, string blockName)
+        public static void ClientCreateBlocks(string positions, string blockName)
         {
-            CreateBlock(position, blockName);
+            foreach (Vector3 position in Decompress(positions))
+            {
+                CreateBlock(position, blockName);
+            }
         }
 
         [ClientRpc]
-        public static void ClientDeleteBlock(Vector3 position)
+        public static void ClientDeleteBlocks(string positions)
         {
-            DeleteBlock(position);
+            foreach (Vector3 position in Decompress(positions))
+            {
+                DeleteBlock(position);
+            }
         }
 
         [ServerCmd]

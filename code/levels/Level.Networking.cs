@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Sandbox;
 
@@ -11,81 +9,68 @@ namespace TerryBros.Levels
 {
     public partial class Level
     {
-        private static int _currentPacketHash = -1;
-        private static int _packetCount;
-        private static byte[][] _packetData;
+        [ConVar.ClientData("mapdata")]
+        public static string MapData { get; set; } = null;
 
-        public static void ServerSendData(Dictionary<string, List<Vector2>> dict)
+        public static void SyncData(Dictionary<string, string> dict)
         {
-            byte[] levelDataJson = Compression.Compress(dict);
-            int splitLength = 150;
-            int splitCount = (int) MathF.Ceiling((float) levelDataJson.Length / splitLength);
+            Host.AssertClient();
 
-            for (int i = 0; i < splitCount; i++)
-            {
-                int length = Math.Clamp(levelDataJson.Length - i * splitLength, 1, splitLength);
-                byte[] bytes = levelDataJson[(i * splitLength)..length];
-
-                ServerSendPartialData(levelDataJson.GetHashCode(), i, splitCount, bytes.StringArray());
-            }
+            MapData = Compression.Compress(dict).StringArray();
         }
 
-        [ServerCmd]
-        public static void ServerSendPartialData(int packetHash, int packetNum, int maxPackets, string partialLevelData)
+        [Event.Tick.Server]
+        public static void ServerSendData()
         {
-            if (!ConsoleSystem.Caller?.HasPermission("import") ?? true)
+            Host.AssertServer();
+
+            foreach (Client client in Client.All)
             {
-                return;
+                if (!client.HasPermission("import"))
+                {
+                    continue;
+                }
+
+                string mapData = client.GetClientData("mapdata");
+
+                if (string.IsNullOrWhiteSpace(mapData))
+                {
+                    continue;
+                }
+
+                byte[] bytes = mapData.ByteArray();
+
+                if (bytes == null || bytes.Length == 0 || mapData == STBGame.CurrentLevel?.Data)
+                {
+                    continue;
+                }
+
+                ClientResetMapData(To.Single(client));
+
+                ProceedData(bytes);
+                ClientSendData(bytes);
+
+                break;
             }
-
-            byte[] bytes = partialLevelData.ByteArray();
-
-            ProceedPartialData(packetHash, packetNum, maxPackets, bytes);
-            ClientSendPartialData(packetHash, packetNum, maxPackets, bytes);
         }
 
         [ClientRpc]
-        public static void ClientSendPartialData(int packetHash, int packetNum, int maxPackets, byte[] partialLevelData)
+        public static void ClientResetMapData()
         {
-            ProceedPartialData(packetHash, packetNum, maxPackets, partialLevelData);
+            MapData = null;
         }
 
-        public static void ProceedPartialData(int packetHash, int packetNum, int maxPackets, byte[] partialLevelData)
+        [ClientRpc]
+        public static void ClientSendData(byte[] mapData)
         {
-            if (_currentPacketHash != packetHash)
-            {
-                _packetCount = 0;
-                _packetData = new byte[maxPackets][];
-
-                _currentPacketHash = packetHash;
-            }
-
-            _packetData[packetNum] = partialLevelData;
-            _packetCount++;
-
-            if (_packetCount == maxPackets)
-            {
-                _currentPacketHash = -1;
-
-                STBGame.CurrentLevel?.Clear();
-
-                new Level().Import(Compression.Decompress<Dictionary<string, List<Vector2>>>(CombineByteArrays(_packetData.ToArray())));
-            }
+            ProceedData(mapData);
         }
 
-        private static byte[] CombineByteArrays(params byte[][] arrays)
+        public static void ProceedData(byte[] mapData)
         {
-            byte[] combinedArray = new byte[arrays.Sum(a => a.Length)];
-            int offset = 0;
+            STBGame.CurrentLevel?.Clear();
 
-            foreach (byte[] array in arrays)
-            {
-                array.CopyTo(combinedArray, offset);
-
-                offset += array.Length;
-            }
-
-            return combinedArray;
+            new Level().Import(mapData.StringArray());
         }
     }
 }

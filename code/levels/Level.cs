@@ -44,6 +44,8 @@ namespace TerryBros.Levels
         public Sky Sky { get; set; }
         public List<EnvironmentLightEntity> Lights { get; set; } = new();
 
+        public string Data { get; set; }
+
         protected LevelElements.SpawnPoint RestartSpawn;
 
         public void RegisterBlock(BlockEntity block)
@@ -205,23 +207,27 @@ namespace TerryBros.Levels
                 }
             }
 
-            return JsonSerializer.Serialize(dict);
+            return JsonSerializer.Serialize(Compress(dict));
         }
 
-        public void Import(Dictionary<string, List<Vector2>> dict)
+        public void Import(string data)
         {
+            Data = data;
+
+            Dictionary<string, List<Vector3>> dict = Decompress(Compression.Decompress<Dictionary<string, string>>(data.ByteArray()));
+
             Build();
 
-            foreach (KeyValuePair<string, List<Vector2>> blockList in dict)
+            foreach (KeyValuePair<string, List<Vector3>> blockList in dict)
             {
                 BlockAsset asset = BlockAsset.GetByName(blockList.Key);
 
                 if (asset != null)
                 {
-                    foreach (Vector2 position in blockList.Value)
+                    foreach (Vector3 position in blockList.Value)
                     {
                         BlockEntity blockEntity = BlockEntity.FromAsset(asset);
-                        blockEntity.Position = GlobalSettings.GetBlockPosForGridCoordinates((int) position.x, (int) position.y);
+                        blockEntity.Position = GlobalSettings.GetBlockPosForGridCoordinates((int) position.x, (int) position.z);
 
                         RegisterBlock(blockEntity);
                     }

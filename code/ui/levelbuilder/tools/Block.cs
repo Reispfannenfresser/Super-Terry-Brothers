@@ -1,5 +1,5 @@
-using Sandbox;
 using Sandbox.UI;
+using Sandbox.UI.Construct;
 
 using TerryBros.LevelElements;
 
@@ -10,6 +10,7 @@ namespace TerryBros.UI.LevelBuilder.Tools
     {
         public Panel Wrapper { get; set; }
 
+        public Panel ImageWrapper { get; set; }
         public Image Image { get; set; }
         public Label TextLabel { get; set; }
 
@@ -19,21 +20,12 @@ namespace TerryBros.UI.LevelBuilder.Tools
         {
             Asset = asset;
 
-            Image.Texture = Texture.Load(Asset.IconPath, false);
-            TextLabel.Text = Asset.DisplayName;
-            TextLabel.Style.Set("opacity", "0");
+            Image = ImageWrapper.Add.Image(Asset.IconPath, "image");
+            TextLabel.Text = Asset.Name;
 
             AddEventListener("onclick", (e) =>
             {
                 BlockSelector.Instance.Select(Asset.Name);
-            });
-            AddEventListener("onmouseover", (e) =>
-            {
-                TextLabel.Style.Set("opacity", "1");
-            });
-            AddEventListener("onmouseout", (e) =>
-            {
-                TextLabel.Style.Set("opacity", "0");
             });
         }
     }
